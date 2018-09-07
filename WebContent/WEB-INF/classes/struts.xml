@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	<struts>
+		<!--  -->
+		<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+		<!-- 开发者模式(是否处于一种开发的状态)，开启后报错更详细
+			注意：项目上线时(打war包时)需要改成false
+		-->
+		<constant name="struts.devMode" value="true" />
+		<!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+		<constant name="struts.configuration.xml.reload" value="true"/>
+		
+		<package name="emp" extends="struts-default">
+			<action name="loginCheck" class="com.yxf.oa.action.LoginAction" method="loginCheck">
+				<result name="success" type="chain">turnToHome</result>
+				<result name="login">/login.jsp</result>
+			</action>
+			<action name="logout" class="com.yxf.oa.action.LogoutAction" method="logout">
+				<result name="login">login.jsp</result>
+			</action>
+			<action name="sendEmail" class="com.yxf.oa.action.ResetPswAction" method="checkEmail">
+				
+			</action>
+			<action name="checkCode" class="com.yxf.oa.action.CheckCodeAction" method="checkCode">
+				
+			</action>
+			<action name="turnToInfo" class="com.yxf.oa.action.EmpInfoAction" method="turnToInfo">
+				<result name="success">/WEB-INF/page/emp/empInfo.jsp</result>
+			</action>
+			<action name="updatePsw" class="com.yxf.oa.action.UpdatePswAction" method="updatePsw">
+				
+			</action>
+			<action name="addRole" class="com.yxf.oa.action.AddRoleAction" method="addRole">
+				
+			</action>
+			<action name="deleteRole" class="com.yxf.oa.action.DeleteRoleAction" method="deleteRole">
+				
+			</action>
+			<action name="updateRole" class="com.yxf.oa.action.UpdateRoleAction" method="updateRole">
+				
+			</action>
+			<action name="findRoleInfo" class="com.yxf.oa.action.FindRoleInfoAction" method="findRoleInfo">
+				<result name="success">/WEB-INF/page/authority/permission.jsp</result>
+			</action>
+			
+			<action name="export" class="com.yxf.oa.actionemps.ExportAction" method="export">
+				
+			</action>
+			
+		</package>
+		
+		<!-- 此包用于跳转 -->
+		<package name="turn" extends="struts-default">
+			<action name="roleManager" class="com.yxf.oa.actionturnpage.TurnToRole" method="turnToRole">
+				<result name="success">/WEB-INF/page/role/showroles.jsp</result>
+			</action>
+			<action name="turnToCreateRole" class="com.yxf.oa.actionturnpage.TurnToCreateRole" method="turnToCreateRole">
+				<result name="success">/WEB-INF/page/role/addrole.jsp</result>
+			</action>
+			<action name="turnToHome" class="com.yxf.oa.actionturnpage.TurnToHome" method="turnToHome">
+				<result name="success">/WEB-INF/page/home.jsp</result>
+			</action>
+			<action name="turnToCreateEmp" class="com.yxf.oa.actionturnpage.TurnToCreateEmp" method="turnToCreateEmp">
+				<result name="success">/WEB-INF/page/emp/addemp.jsp</result>
+			</action>
+			<action name="addEmp" class="com.yxf.oa.actionemps.AddEmpAction" method="addEmp">
+				<result name="success" type="chain">empManager</result>
+				<result name="error">/WEB-INF/page/emp/addemp.jsp</result>
+			</action>
+			
+			<action name="turnToUpdateEmp" class="com.yxf.oa.actionturnpage.TurnToUpdateEmpAction" method="turnToUpdateEmp">
+				<result name="success">/WEB-INF/page/emp/updateemp.jsp</result>
+			</action>
+			<action name="turnToClockIn" class="com.yxf.oa.actionturnpage.TurnToClockInAction" method="turnToClockIn">
+				<result name="success">/WEB-INF/page/attendance/clockin.jsp</result>
+			</action>
+			<action name="turnToClockOut" class="com.yxf.oa.actionturnpage.TurnToClockOutAction" method="turnToClockOut">
+				<result name="success">/WEB-INF/page/attendance/clockout.jsp</result>
+			</action>
+			<action name="turnToProcess" class="com.yxf.oa.actionturnpage.TurnToCreateProcessAction" method="turnToCreateProcess">
+				<result name="success">/WEB-INF/page/process/createprocess.jsp</result>
+			</action>
+			<action name="turnToShowProcesses" class="com.yxf.oa.actionturnpage.TurnToShowProcessesAction" method="turnToShowProcesses">
+				<result name="success">/WEB-INF/page/process/showprocesses.jsp</result>
+			</action>
+			<action name="notice" class="com.yxf.oa.actionturnpage.TurnToNotice" method="turnToNotice">
+				<result name="success">/WEB-INF/page/jobplan/notice.jsp</result>
+			</action>
+			
+		</package>
+		
+		<!-- 用户package -->
+		<package name="emps" extends="struts-default">
+			<action name="empManager" class="com.yxf.oa.actionemps.EmpManagerAction" method="showEmps">
+				<result name="success">/WEB-INF/page/emp/emps.jsp</result>
+			</action>
+			<action name="updateEmpInfo" class="com.yxf.oa.actionemps.UpdateEmpAction" method="updateEmpInfo">
+				<result name="success" type="chain">empManager</result>
+			</action>
+			<action name="deleteEmp" class="com.yxf.oa.actionemps.DeleteEmpAction" method="deleteEmp">
+				<result name="success" type="redirectAction">empManager</result>
+			</action>
+			<action name="updateEmp" class="com.yxf.oa.actionemps.UpdateEmpInfoAction" method="updateEmpInfo">
+				<result name="success" type="chain">empManager</result>
+			</action>
+			<action name="updateNotice" class="com.yxf.oa.actionemps.NoticeAction" method="notice">
+			
+			</action>
+		</package>
+		
+		<!-- 考勤相关action -->
+		<package name="clock" extends="struts-default">
+			<action name="clockIn" class="com.yxf.oa.actionclock.ClockInAction" method="clockIn">
+				
+			</action>
+			<action name="clockOut" class="com.yxf.oa.actionclock.ClockOutAction" method="clockOut">
+				
+			</action>
+		</package>
+		
+		<!-- 流程相关action -->
+		<package name="process" extends="struts-default">
+			<action name="createProcess" class="com.yxf.oa.actionprocess.CreateProcessAction" method="createProcess">
+				
+			</action>
+			<!-- 主页使用，查看已提交流程 -->
+			<action name="findProcessInfo" class="com.yxf.oa.actionprocess.FindProcessInfoAction" method="findProcessInfo">
+				<result name="success">/WEB-INF/page/process/showprocessinfo.jsp</result>
+			</action>
+			<!-- 流程审批使用 -->
+			<action name="approve" class="com.yxf.oa.actionprocess.FindProcessInfoAction" method="findProcessInfo">
+				<result name="success">/WEB-INF/page/approve/approve.jsp</result>
+			</action>
+			<!-- 查看更多 -->
+			<action name="processApprove" class="com.yxf.oa.actionprocess.ProcessApproveAction" method="processApprove">
+				<result name="success">/WEB-INF/page/approve/processapprove.jsp</result>
+			</action>
+			<!-- approveProcess审批流程 -->
+			<action name="doApprove" class="com.yxf.oa.actionprocess.ApproveAction" method="approve">
+				
+			</action>
+		</package>
+		
+		<!-- 报表相关action -->
+		<package name="reportForm" extends="struts-default">
+			<action name="projectDeclare" class="com.yxf.oa.actionreportform.ProjectDeclareAction" method="reportForm">
+				<result name="success">/WEB-INF/page/jobplan/reprotform.jsp</result>
+			</action>
+			
+		</package>
+		
+	</struts>
+	

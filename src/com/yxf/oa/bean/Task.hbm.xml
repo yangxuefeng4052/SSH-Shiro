@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件 -->
+<hibernate-mapping>
+	<!-- 数据表和实体类之间的映射
+		name：实体类全限定名（包名.类名）
+		table:数据库中表名
+	 -->
+	<class name="com.yxf.oa.bean.Task" table="task">
+		<!-- 当前类对象使用二级缓存 -->
+		<!-- 数据表中字段和实体类中属性之间的映射关系 -->
+		<!-- 主键映射
+			name：实体类中表示主键的属性名
+			type：属性类型
+		 -->
+		<id name="id" type="int">
+			<!-- 数据表中充当主键的列名 -->
+			<column name="id" />
+			<!-- 主键的生成策略
+				1.assigned：主键由自己指定，在插入数据时，主键必须给定值
+				2.identity：主键自增长，在插入数据时，主键不能给定值
+				3.uuid：生成32位随机字符串充当主键ID，主键的类型必须是字符串 （varchar，char）
+				4.sequence：序列，使用序列来生成主键，一般用在Oralce，DB2中
+				5.native:根据不同数据库来使用相对应的策略生成主键
+						mysql：根据自增长生成主键
+						oralce：根据序列生成主键
+			 -->
+			<generator class="identity" />
+		</id>
+		<!-- 非主键字段和实体类中属性之间的映射
+			name:实体类中属性名称
+			type：实体类中属性名称
+		 -->
+		<property name="approver" type="string">
+			<!-- 表中字段名称 -->
+			<column name="approver"></column>
+		</property>
+		<property name="remark" type="string">
+			<!-- 表中字段名称 -->
+			<column name="remark"></column>
+		</property>
+		<many-to-one name="process" column="processid" class="com.yxf.oa.bean.Process" lazy="false" cascade="save-update">
+			
+		</many-to-one>
+	</class>
+</hibernate-mapping>
